@@ -1,0 +1,29 @@
+// prisma/schema.prisma
+generator client {
+  // possible: "prisma-client-js" (classique) ou "prisma-client"
+  provider = "prisma-client-js"
+  // génère le client au dossier /generated/client (à la racine)
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  // NE PAS mettre url ici avec Prisma 7
+}
+
+model Lead {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  status    Status   @default(NEW)
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Status {
+  NEW
+  IN_PROGRESS
+  WON
+  LOST
+}
