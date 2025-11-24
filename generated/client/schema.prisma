@@ -8,7 +8,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  // NE PAS mettre url ici avec Prisma 7
 }
 
 model Lead {

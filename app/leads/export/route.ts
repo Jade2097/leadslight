@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import type { Prisma, Status } from '@prisma/client';
 
-function isRealStatus(s: string | null): s is Status {
+// Remplace l'import du type Status par un alias local:
+type LeadStatus = 'NEW' | 'IN_PROGRESS' | 'WON' | 'LOST';
+
+function isRealStatus(s: string | null): s is LeadStatus {
   return s === 'NEW' || s === 'IN_PROGRESS' || s === 'WON' || s === 'LOST';
 }
 
@@ -16,10 +18,8 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const q = url.searchParams.get('status');
 
-  const where: Prisma.LeadWhereInput = isRealStatus(q) ? { status: q } : {};
-
   const rows = await prisma.lead.findMany({
-    where,
+    where: isRealStatus(q) ? { status: q } : undefined,
     orderBy: { createdAt: 'desc' },
     select: { id: true, name: true, email: true, status: true, note: true, createdAt: true },
   });
