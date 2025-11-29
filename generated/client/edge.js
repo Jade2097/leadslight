@@ -39,12 +39,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.0.0
- * Query Engine version: 0c19ccc313cf9911a90d99d2ac2eb0280c76c513
+ * Prisma Client JS version: 7.0.1
+ * Query Engine version: f09f2815f091dbba658cdcd2264306d88bb5bda6
  */
 Prisma.prismaVersion = {
-  client: "7.0.0",
-  engine: "0c19ccc313cf9911a90d99d2ac2eb0280c76c513"
+  client: "7.0.1",
+  engine: "f09f2815f091dbba658cdcd2264306d88bb5bda6"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -123,8 +123,8 @@ exports.Prisma.ModelName = {
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.0.0",
-  "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
+  "clientVersion": "7.0.1",
+  "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
   "activeProvider": "sqlite",
   "inlineSchema": "// prisma/schema.prisma\ngenerator client {\n  // possible: \"prisma-client-js\" (classique) ou \"prisma-client\"\n  provider = \"prisma-client-js\"\n  // génère le client au dossier /generated/client (à la racine)\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Lead {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String\n  status    Status   @default(NEW)\n  note      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nenum Status {\n  NEW\n  IN_PROGRESS\n  WON\n  LOST\n}\n"
 }
