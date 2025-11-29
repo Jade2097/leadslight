@@ -8,7 +8,10 @@ export async function createLead(formData: FormData) {
   const email = String(formData.get('email') || '');
   const status = String(formData.get('status') || 'NEW') as any;
   const note = String(formData.get('note') || '');
-  await prisma.lead.create({ data: { name, email, status, note } });
+  // Certains environnements n'appliquent pas le DEFAULT CURRENT_TIMESTAMP de SQLite :
+  // on hydrate createdAt/updatedAt côté app pour éviter les erreurs "NOT NULL constraint failed".
+  const now = new Date();
+  await prisma.lead.create({ data: { name, email, status, note, createdAt: now, updatedAt: now } });
   revalidatePath('/leads');
 }
 
