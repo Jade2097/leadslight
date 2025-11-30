@@ -87,6 +87,9 @@ Prisma.NullTypes = NullTypes
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -103,6 +106,11 @@ exports.Prisma.LeadScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -126,8 +134,8 @@ const config = {
   "previewFeatures": [],
   "clientVersion": "7.0.1",
   "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
-  "activeProvider": "sqlite",
-  "inlineSchema": "// prisma/schema.prisma\ngenerator client {\n  // possible: \"prisma-client-js\" (classique) ou \"prisma-client\"\n  provider = \"prisma-client-js\"\n  // génère le client au dossier /generated/client (à la racine)\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Lead {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String\n  status    Status   @default(NEW)\n  note      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nenum Status {\n  NEW\n  IN_PROGRESS\n  WON\n  LOST\n}\n"
+  "activeProvider": "postgresql",
+  "inlineSchema": "// prisma/schema.prisma\ngenerator client {\n  // possible: \"prisma-client-js\" (classique) ou \"prisma-client\"\n  provider = \"prisma-client-js\"\n  // génère le client au dossier /generated/client (à la racine)\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Lead {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String\n  status    Status   @default(NEW)\n  note      String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nenum Status {\n  NEW\n  IN_PROGRESS\n  WON\n  LOST\n}\n"
 }
 
 config.runtimeDataModel = JSON.parse("{\"models\":{\"Lead\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"Status\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
