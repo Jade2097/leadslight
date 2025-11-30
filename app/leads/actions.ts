@@ -2,8 +2,8 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
-
 const VALID_STATUSES = new Set(['NEW', 'IN_PROGRESS', 'WON', 'LOST'] as const);
+type LeadStatus = 'NEW' | 'IN_PROGRESS' | 'WON' | 'LOST';
 
 function validateLeadInput(formData: FormData) {
   const name = String(formData.get('name') || '').trim();
@@ -14,7 +14,8 @@ function validateLeadInput(formData: FormData) {
   if (!name) throw new Error('Nom requis');
   if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('Email invalide');
 
-  const status = VALID_STATUSES.has(statusRaw as any) ? statusRaw : 'NEW';
+  // Prisma génère l'énum dans PrismaClient.$Enums
+  const status = (VALID_STATUSES.has(statusRaw as any) ? statusRaw : 'NEW') as LeadStatus;
   const note = noteRaw.slice(0, 500); // limite de taille pour éviter les débordements
 
   return { name, email, status, note };
