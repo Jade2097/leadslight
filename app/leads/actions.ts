@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 const VALID_STATUSES = new Set(['NEW', 'IN_PROGRESS', 'WON', 'LOST'] as const);
 type LeadStatus = 'NEW' | 'IN_PROGRESS' | 'WON' | 'LOST';
 
@@ -25,15 +26,24 @@ export async function createLead(formData: FormData) {
   const { name, email, status, note } = validateLeadInput(formData);
   await prisma.lead.create({ data: { name, email, status, note } });
   revalidatePath('/leads');
+  redirect('/leads');
 }
 
 export async function updateLead(id: number, formData: FormData) {
   const { name, email, status, note } = validateLeadInput(formData);
   await prisma.lead.update({ where: { id }, data: { name, email, status, note } });
   revalidatePath('/leads');
+  redirect('/leads');
 }
 
 export async function deleteLead(id: number) {
   await prisma.lead.delete({ where: { id } });
   revalidatePath('/leads');
+}
+
+export async function disableLead(id: number) {
+  // "Désactiver" = marquer comme perdu
+  await prisma.lead.update({ where: { id }, data: { status: 'LOST' } });
+  revalidatePath('/leads');
+  redirect('/leads');
 }

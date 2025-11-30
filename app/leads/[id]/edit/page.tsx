@@ -1,8 +1,11 @@
 import { prisma } from '@/lib/prisma';
 import { updateLead } from '../../actions';
 
-export default async function EditPage({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export default async function EditPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: idParam } = await params;
+  const id = Number(idParam);
+  if (!Number.isInteger(id)) return <p className="text-red-400">Identifiant invalide.</p>;
+
   const lead = await prisma.lead.findUnique({ where: { id } });
   if (!lead) return <p className="text-red-400">Lead introuvable.</p>;
 

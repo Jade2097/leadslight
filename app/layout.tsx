@@ -4,7 +4,7 @@ export const metadata = { title: 'LeadsLight', description: 'Mini outil de suivi
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" data-scroll-behavior="smooth">
       {/* Utilise les variables du thème plutôt que des couleurs “hardcodées” */}
       <body className="min-h-screen bg-bg text-fg">
         <header className="container">

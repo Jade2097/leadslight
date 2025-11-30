@@ -1,7 +1,7 @@
 // app/leads/page.tsx
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { createLead } from './actions';
+import { createLead, disableLead } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +78,7 @@ export default async function LeadsPage() {
                   <th>Statut</th>
                   <th>Note</th>
                   <th>Créé</th>
+                  <th className="text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,6 +89,17 @@ export default async function LeadsPage() {
                     <td>{statusLabel[l.status] ?? l.status}</td>
                     <td className="text-muted">{l.note || '—'}</td>
                     <td className="text-muted">{l.createdAt.toLocaleDateString('fr-FR')}</td>
+                    <td className="text-right">
+                      <Link href={`/leads/${l.id}/edit`} className="text-primary hover:underline mr-3">
+                        Éditer
+                      </Link>
+                      <form
+                        action={async () => { 'use server'; await disableLead(l.id); }}
+                        className="inline"
+                      >
+                        <button type="submit" className="text-muted hover:underline">Désactiver</button>
+                      </form>
+                    </td>
                   </tr>
                 ))}
               </tbody>
