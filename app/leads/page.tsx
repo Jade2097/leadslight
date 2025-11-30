@@ -32,14 +32,18 @@ export default async function LeadsPage() {
 
       <section className="card p-6 space-y-4">
         <h2 className="text-2xl font-semibold">Nouveau lead</h2>
-        <form action={createLead} className="grid gap-4 md:grid-cols-2">
+        <form action={async (fd: FormData) => {
+          'use server';
+          try { await createLead(fd); }
+          catch (err) { console.error('Erreur création lead', err); }
+        }} className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <label className="label" htmlFor="name">Nom</label>
-            <input className="input" id="name" name="name" required placeholder="Jane Doe" />
+            <input className="input" id="name" name="name" required maxLength={120} placeholder="Jane Doe" />
           </div>
           <div className="space-y-2">
             <label className="label" htmlFor="email">Email</label>
-            <input className="input" id="email" name="email" type="email" required placeholder="jane@example.com" />
+            <input className="input" id="email" name="email" type="email" required maxLength={160} placeholder="jane@example.com" />
           </div>
           <div className="space-y-2">
             <label className="label" htmlFor="status">Statut</label>
@@ -52,7 +56,7 @@ export default async function LeadsPage() {
           </div>
           <div className="space-y-2">
             <label className="label" htmlFor="note">Note</label>
-            <input className="input" id="note" name="note" placeholder="Contexte, next step…" />
+            <input className="input" id="note" name="note" maxLength={500} placeholder="Contexte, next step…" />
           </div>
           <div className="md:col-span-2">
             <button className="button" type="submit">Enregistrer</button>
